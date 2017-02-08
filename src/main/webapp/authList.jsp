@@ -3,7 +3,9 @@
     Created on : Feb 8, 2017, 8:59:40 AM
     Author     : chris
 --%>
-
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -51,27 +53,37 @@
             </div><!--/.container-fluid -->
           </nav>
     </div>
-        
-        <table>
-            <th>Author Name</th>
-            <th>Author ID</th>
-            <th>Date Added</th>
+        <div class="row">
+            <div class="container">
+                <div class="col-md-4">
+                    <table class="table">
+                        <th>Author Name</th>
+                        <th>Author ID</th>
+                        <th>Date Added</th>
+
+                        <c:forEach var="authorList" items="${authorList}" varStatus="rowCount">
+                            <tr>
+                            <c:choose>
+                                <c:when test="${rowCount.count % 2 != 0}">
+                                    <tr style="background-color: white">     
+                                </c:when>
+                                <c:otherwise>
+                                    <tr style="background-color: lightgrey">     
+                                </c:otherwise>
+                            </c:choose>
+                            <td>${authorList.authorName}</td>
+                            <td>${authorList.authorId}</td>
+                            <td>${authorList.dateAdded}</td>
+                            </tr>
+                        </c:forEach>
+                </table>    
+                    
+                </div>
+    
+            </div>
+   
             
-            <c:forEach var="authorList" items="${authorList}" varStatus="rowCount">
-                <tr>
-                <c:choose>
-                    <c:when test="${rowCount.count % 2 != 0}">
-                        <tr style="background-color: white">     
-                    </c:when>
-                    <c:otherwise>
-                        <tr style="background-color: lightgrey">     
-                    </c:otherwise>
-                </c:choose>
-                <td>${authorList.authorName}</td>
-                <td>${authorList.authorId}</td>
-                <td>${authorList.dateAdded}</td>
-                </tr>
-            </c:forEach>
-        </table>
+        </div>
+
     </body>
 </html>

@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author chris
  */
-@WebServlet(name = "AuthorController", urlPatterns = {"/AuthorController"})
+@WebServlet(name = "authorController", urlPatterns = {"/authorController"})
 public class authorController extends HttpServlet {
     
     /**
@@ -34,6 +34,7 @@ public class authorController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     private String AUTH_LIST_PAGE = "/authList.jsp";
+    private String ACTION_PARAM = "";
        
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
