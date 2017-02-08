@@ -33,7 +33,7 @@ public class authorController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    private String AUTH_LIST_PAGE = "/authorList.jsp";
+    private String AUTH_LIST_PAGE = "/authList.jsp";
        
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
