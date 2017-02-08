@@ -70,7 +70,7 @@
                 <td>${authorList.authorName}</td>
                 <td>${authorList.authorId}</td>
                 <td>${authorList.dateAdded}</td>
-            </tr>
+                </tr>
             </c:forEach>
         </table>
     </body>
