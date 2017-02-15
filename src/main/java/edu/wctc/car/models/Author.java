@@ -1,6 +1,5 @@
 package edu.wctc.car.models;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
@@ -14,7 +13,7 @@ public class Author {
     
     private Integer authorId;
     private String authorName;
-    private Calendar dateAdded;
+    private Date dateAdded;
 
     public Author() {
     }
@@ -23,7 +22,7 @@ public class Author {
         this.authorId = authorId;
     }
 
-    public Author(Integer authorId, String authorName, Calendar dateAdded) {
+    public Author(Integer authorId, String authorName, Date dateAdded) {
         this.authorId = authorId;
         this.authorName = authorName;
         this.dateAdded = dateAdded;
@@ -51,11 +50,11 @@ public class Author {
         this.authorName = authorName;
     }
 
-    public final Calendar getDateAdded() {
+    public final Date getDateAdded() {
         return dateAdded;
     }
 
-    public final void setDateAdded(Calendar dateAdded) throws IllegalArgumentException {
+    public final void setDateAdded(Date dateAdded) throws IllegalArgumentException {
         if(dateAdded == null) {
             throw new IllegalArgumentException("date addedl" + NULL_MSG);
         }

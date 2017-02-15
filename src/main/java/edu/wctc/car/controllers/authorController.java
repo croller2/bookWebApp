@@ -6,10 +6,13 @@
 package edu.wctc.car.controllers;
 
 import edu.wctc.car.models.Author;
+import edu.wctc.car.models.AuthorDao;
 import edu.wctc.car.models.AuthorService;
+import edu.wctc.car.models.MySqlDbAccessor;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -41,8 +44,16 @@ public class authorController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         try{
-            AuthorService as = new AuthorService();
-            ArrayList<Author> listOfAuthors = as.getAuthors();
+            
+            AuthorService as = new AuthorService(                
+                    new AuthorDao(
+                        new MySqlDbAccessor(), 
+                        "com.mysql.jdbc.Driver", 
+                        "jdbc:mysql://localhost:3306/book",
+                        "root",
+                        "08rollec!")
+                    );
+            List<Author> listOfAuthors = as.getListOfAuthors("author" , 50);
             request.setAttribute("authorList", listOfAuthors);
 
             RequestDispatcher view =
