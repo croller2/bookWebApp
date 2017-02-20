@@ -7,9 +7,12 @@ package edu.wctc.car.models;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -115,6 +118,22 @@ public class AuthorDao implements IAuthorDao {
         db.closeConnection();
     }    
     
+    @Override
+    public int updateAuthorRecord(String tableName, List<String> columnNames, List colValues, String whereField, Object whereValue) throws ClassNotFoundException, SQLException {
+        db.openConnection(driverClass, url, username, password);
+        int recordsUpdated = db.updateRecord(tableName, columnNames, colValues, whereField, whereValue);
+        db.closeConnection();
+        return recordsUpdated;
+    }
+    
+    @Override
+    public void addAuthor(String tableName, List<String> columnNames, List columnValues) throws ClassNotFoundException, SQLException {
+        db.openConnection(driverClass, url, username, password);
+        db.insertRecord(tableName, columnNames, columnValues);
+        db.closeConnection();
+
+    }
+
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
         AuthorDao authorTest = new AuthorDao(
                 new MySqlDbAccessor(), 
@@ -122,21 +141,17 @@ public class AuthorDao implements IAuthorDao {
                 "jdbc:mysql://localhost:3306/book",
                 "root",
                 "08rollec!");
-        System.out.println("List Of Authors: ");
-        authorTest.removeAuthorById("author", "author_id", 1);
+        System.out.println("List Of Authors: ");        
+        List<String> columnNames = new ArrayList<>(Arrays.asList("author_name", "date_added"));
+        List<Object> colValues = new ArrayList<>(Arrays.asList("Joseph Heller 3" , new Date()));
+        authorTest.updateAuthorRecord("author", columnNames, colValues, "author_id", 7);
         List<Author> authors = authorTest.getAuthorList("author", 50);
         for(Author author : authors){
             System.out.println(author);
         }
     }  
 
-    @Override
-    public int updateAuthorRecord(String tableName, List columnNames, List colValues, String whereField, Object whereValue) throws ClassNotFoundException, SQLException {
-        db.openConnection(driverClass, url, username, password);
-        int recordsUpdated = db.updateRecords(tableName, columnNames, colValues, whereField, whereValue);
-        db.closeConnection();
-        return recordsUpdated;
-    }
+
         
 
 

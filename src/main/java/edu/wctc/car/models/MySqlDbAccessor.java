@@ -125,6 +125,7 @@ public class MySqlDbAccessor implements DbAccessor {
         return results;
         
     }
+    
     @Override
     public void insertRecord(String tableName, List<String> columnNames, List columnValues) throws SQLException{
        StringJoiner sJoin = new StringJoiner("," , "(" , ")");
@@ -152,57 +153,50 @@ public class MySqlDbAccessor implements DbAccessor {
        int records = pstmt.executeUpdate();
     }
     
-    
-    //UPDATE table_name
-    //SET column1=value1,column2=value2,...
-    //WHERE some_column=some_value;
     @Override
-     public int updateRecords(String tableName, List columnNames, List colValues,
+     public int updateRecord(String tableName, List<String> columnNames, List colValues,
             String whereField, Object whereValue) throws SQLException{
+        
         PreparedStatement pstmt = null;
         int recsUpdated = 0;
         
         StringBuffer sql = new StringBuffer("UPDATE ");
         (sql.append(tableName)).append(" SET ");
-        Iterator i = columnNames.iterator();
-        while (i.hasNext()) {
-            (sql.append((String) i.next())).append(" = ?, ");
+        for(Object column : columnNames){
+            sql.append((String) column).append(" = ?, ");
         }
-
         sql = new StringBuffer((sql.toString()).substring(0, (sql.toString()).lastIndexOf(", ")));
         
         ((sql.append(" WHERE ")).append(whereField)).append(" = ?");
         
         String finishedSQL = sql.toString();
-        
-        i = colValues.iterator();
-            int index = 1;
-            Object obj = null;
-
-        while (i.hasNext()) {
-            obj = i.next();
-            pstmt.setObject(index++, obj);
+            
+        pstmt = conn.prepareStatement(finishedSQL);
+        int indexOfWhere = 1;
+        for(int i = 0 ; i < colValues.size(); i++){
+            pstmt.setObject(i+1, colValues.get(i));   
+            indexOfWhere++;
         }
-        pstmt.setObject(index, whereValue);
-
+        pstmt.setObject(indexOfWhere, whereValue);
         recsUpdated = pstmt.executeUpdate();
         return recsUpdated;
     }
 
-    
     @Override
-    public int deleteRecordById(String table, String columnName, Object Id) throws SQLException {
-        String sid = null;
-        Integer intId = null;
-        String sql = "DELETE FROM " + table + " WHERE " + columnName + " = ";
-        if(Id instanceof String){
-            sql += Id.toString(); 
-        }else if(Id instanceof Integer){
-            sql += (Integer)Id;
-        }
+    public int deleteRecordById(String table, String primaryKeyFieldName, Object Id) throws SQLException {       
         
-        stmt = conn.createStatement();
-        int recordsAffected = stmt.executeUpdate(sql);
+        String sql = "DELETE FROM " + table + " WHERE " + primaryKeyFieldName + " = ?";
+        PreparedStatement stmt = null;
+        int recordsAffected;
+        try{
+            System.out.println(sql);
+            stmt = conn.prepareStatement(sql);
+            stmt.setObject(1, Id);
+            System.out.println(stmt);
+            recordsAffected = stmt.executeUpdate();
+        }catch(SQLException e){
+             throw e;
+        }
         return recordsAffected;
     }
     
@@ -212,14 +206,15 @@ public class MySqlDbAccessor implements DbAccessor {
                 "jdbc:mysql://localhost:3306/book", 
                 "root", "08rollec!");
         
-        
-        List<String> columns = new ArrayList<>(Arrays.asList("author_name" , "date_added"));
-        List values = new ArrayList<>(Arrays.asList("Orson Scott Card" , new Date()));
+        List<String> columnNames = new ArrayList<>(Arrays.asList("author_name", "date_added"));
+        List<Object> colValues = new ArrayList<>(Arrays.asList("Joseph Heller 10" , new Date()));
+       
+        db.updateRecord("author", columnNames, colValues, "date_added", "2017-02-20");
   
         List<Map<String, Object>> records = db.findRecordsFor("author", 50);
         db.closeConnection();
         
-        for(Map<String, Object> record : records){
+       for(Map<String, Object> record : records){
             System.out.println(record);
         } 
     
