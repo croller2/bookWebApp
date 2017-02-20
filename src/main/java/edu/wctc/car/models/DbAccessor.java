@@ -26,4 +26,7 @@ public interface DbAccessor {
     // Consider creating a custom exception
     void openConnection(String driverClass, String Url, String userName, String password) throws ClassNotFoundException, SQLException;
     
+    int updateRecords(String tableName, List columnNames, List colValues,
+            String whereField, Object whereValue)throws SQLException;
+    
 }

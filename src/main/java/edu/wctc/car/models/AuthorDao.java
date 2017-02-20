@@ -129,6 +129,14 @@ public class AuthorDao implements IAuthorDao {
             System.out.println(author);
         }
     }  
+
+    @Override
+    public int updateAuthorRecord(String tableName, List columnNames, List colValues, String whereField, Object whereValue) throws ClassNotFoundException, SQLException {
+        db.openConnection(driverClass, url, username, password);
+        int recordsUpdated = db.updateRecords(tableName, columnNames, colValues, whereField, whereValue);
+        db.closeConnection();
+        return recordsUpdated;
+    }
         
 
 

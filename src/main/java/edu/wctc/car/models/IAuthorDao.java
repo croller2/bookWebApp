@@ -19,6 +19,9 @@ public interface IAuthorDao {
 
     void removeAuthorById(String tableName, String columnName , int authorId)throws ClassNotFoundException, SQLException;
     
+    int updateAuthorRecord(String tableName, List columnNames, List colValues,
+            String whereField, Object whereValue)throws ClassNotFoundException, SQLException;
+    
     DbAccessor getDb();
 
     String getDriverClass();

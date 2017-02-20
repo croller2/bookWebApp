@@ -15,6 +15,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -151,6 +152,44 @@ public class MySqlDbAccessor implements DbAccessor {
        int records = pstmt.executeUpdate();
     }
     
+    
+    //UPDATE table_name
+    //SET column1=value1,column2=value2,...
+    //WHERE some_column=some_value;
+    @Override
+     public int updateRecords(String tableName, List columnNames, List colValues,
+            String whereField, Object whereValue) throws SQLException{
+        PreparedStatement pstmt = null;
+        int recsUpdated = 0;
+        
+        StringBuffer sql = new StringBuffer("UPDATE ");
+        (sql.append(tableName)).append(" SET ");
+        Iterator i = columnNames.iterator();
+        while (i.hasNext()) {
+            (sql.append((String) i.next())).append(" = ?, ");
+        }
+
+        sql = new StringBuffer((sql.toString()).substring(0, (sql.toString()).lastIndexOf(", ")));
+        
+        ((sql.append(" WHERE ")).append(whereField)).append(" = ?");
+        
+        String finishedSQL = sql.toString();
+        
+        i = colValues.iterator();
+            int index = 1;
+            Object obj = null;
+
+        while (i.hasNext()) {
+            obj = i.next();
+            pstmt.setObject(index++, obj);
+        }
+        pstmt.setObject(index, whereValue);
+
+        recsUpdated = pstmt.executeUpdate();
+        return recsUpdated;
+    }
+
+    
     @Override
     public int deleteRecordById(String table, String columnName, Object Id) throws SQLException {
         String sid = null;
@@ -175,8 +214,8 @@ public class MySqlDbAccessor implements DbAccessor {
         
         
         List<String> columns = new ArrayList<>(Arrays.asList("author_name" , "date_added"));
-        List values = new ArrayList<>(Arrays.asList("Joseph Heller" , new Date()));
-        db.insertRecord("author", columns, values);
+        List values = new ArrayList<>(Arrays.asList("Orson Scott Card" , new Date()));
+  
         List<Map<String, Object>> records = db.findRecordsFor("author", 50);
         db.closeConnection();
         
