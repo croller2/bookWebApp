@@ -11,7 +11,10 @@ import edu.wctc.car.models.AuthorService;
 import edu.wctc.car.models.MySqlDbAccessor;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -37,15 +40,18 @@ public class authorController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     private String AUTH_LIST_PAGE = "/authList.jsp";
+    private String ADD_AUTH_PAGE = "/addAuthor.jsp";
+    private String UPDATE_AUTHOR_PAGE = "/updateAuthor.jsp";
+    private String PAGE_NOT_FOUND = "/error_404.jsp";
     private String ACTION_PARAM = "";
        
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-        try{
-            
-            AuthorService as = new AuthorService(                
+        String operation = request.getParameter("op");
+        RequestDispatcher view = request.getRequestDispatcher(PAGE_NOT_FOUND);   
+        
+        AuthorService as = new AuthorService(                
                     new AuthorDao(
                         new MySqlDbAccessor(), 
                         "com.mysql.jdbc.Driver", 
@@ -53,14 +59,40 @@ public class authorController extends HttpServlet {
                         "root",
                         "08rollec!")
                     );
-            List<Author> listOfAuthors = as.getListOfAuthors("author" , 50);
-            request.setAttribute("authorList", listOfAuthors);
+        try{
+            if(operation == null){
+                List<Author> listOfAuthors = refreshAuthorList(as);
+                request.setAttribute("authorList", listOfAuthors);
+                view = request.getRequestDispatcher(AUTH_LIST_PAGE);   
+  
+            }
+            else if(operation.equalsIgnoreCase("addAuthor")){
+                view = request.getRequestDispatcher(ADD_AUTH_PAGE);   
+    
+            }else if(operation.equalsIgnoreCase("updateAuthor")){
+                
+                
+                //Figure out how to ascertain what authorId's were checked here. 
+                String authorId = request.getQueryString();
+                System.out.println(authorId);
+                view = request.getRequestDispatcher(UPDATE_AUTHOR_PAGE);
 
-            RequestDispatcher view =
-                    request.getRequestDispatcher(AUTH_LIST_PAGE);
-            view.forward(request, response);
+            }else if(operation.equalsIgnoreCase("addToList")){
+                String authorName = request.getParameter("authorName");
+                Date addedDate = new Date();
+                as.addAuthor(
+                        "author", 
+                        new ArrayList<>(Arrays.asList("author_name", "date_added")), 
+                        new ArrayList<>(Arrays.asList(authorName, addedDate)));
+                List<Author> listOfAuthors = refreshAuthorList(as);
+                request.setAttribute("authorList", listOfAuthors);
+                view = request.getRequestDispatcher(AUTH_LIST_PAGE);   
+            }
+            view.forward(request, response);  
         }catch(Exception e){
-            //Return this to an error page
+            request.setAttribute("errorMessage", e.getMessage());
+            view = request.getRequestDispatcher(PAGE_NOT_FOUND);
+            
         }
     }
 
@@ -103,4 +135,8 @@ public class authorController extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    
+    public List<Author> refreshAuthorList(AuthorService as) throws ClassNotFoundException, SQLException{
+        return as.getListOfAuthors("author" , 50);
+    }
 }

@@ -1,21 +1,17 @@
-<%-- 
-    Document   : authList
-    Created on : Feb 8, 2017, 8:59:40 AM
+    Document   : addAuthor
+    Created on : Feb 22, 2017, 10:49:56 AM
     Author     : chris
 --%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/main.css" rel="stylesheet">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="js/main.js"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Author List</title>
+        <title>Add Author</title>
     </head>
     <body>
         <div class="container">
@@ -47,21 +43,16 @@
                   </li>
                 </ul>
             </div><!--/.nav-collapse -->
-
           </nav>
-    </div>
-
-        <div class="container">
-            <div class="row">                
+        </div>
+        
+        <div class="container-fluid">
+            <div class="row">
                 <div class="col-xs-6 col-xs-offset-3">
-                    <form id="authList" name="authList"  method="POST" action="authorController?op=updateAuthor">
-                        <table class="table table-bordered">
-                            <th>Update</th>
-                            <th>Author Name</th>
-                            <th>Author ID</th>
-                            <th>Date Added</th>
-
-                            <c:forEach var="authorList" items="${authorList}" varStatus="rowCount">
+                    <h2>Update Authors</h2>
+                    <form id="upDateAuthorForm" name="upDateAuthorForm" method="POST" action="authorController?op=update">
+                        <div class="form-group">
+                         <c:forEach var="authorList" items="${authorList}" varStatus="rowCount">
                                 <tr>
                                 <c:choose>
                                     <c:when test="${rowCount.count % 2 != 0}">
@@ -71,32 +62,19 @@
                                         <tr style="background-color: lightgrey">     
                                     </c:otherwise>
                                 </c:choose>
-                                <td style="text-align: center">
-                                    <input id="${authorList.authorId}" name="${authorList.authorId}" type="checkbox">
-                                </td>
-                                <td>${authorList.authorName}</td>
-                                <td>${authorList.authorId}</td>
-                                <td>${authorList.dateAdded}</td>
+                               
+                                <td><input class="form-control" type="text" placeholder="${authorList.authorName}"</td>
+                                <td><input class="form-control" type="text" placeholder="${authorList.authorId}"</td>
+                                <td><input class="form-control" type="text" placeholder="${authorList.dateAdded}"</td>
                                 </tr>
                             </c:forEach>
-                        </table>
-                        <button disabled id="updateAuthor" name="upDateAuthor" class="btn btn-default" type="submit">Edit/Update</button>
-                    </form>
-                                  
+                        </div>
+                        <button id="upDateAuthors" disabled type="submit" class="btn btn-default">Update</button>
+                    </form>                   
                 </div>
-            </div>  
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-6 col-xs-offset-3">
-                    <form id="addAuthorForm" name="addAuthorForm" method="POST" action="authorController?op=addAuthor">
-                        <button id="addAuthor" name="addAuthor" class="btn btn-default" type="submit">Add Author</button>
-                    </form>
-                </div>
-            </div>            
-            
-        </div>
 
-
+            </div>
+        </div>
+        
     </body>
 </html>
