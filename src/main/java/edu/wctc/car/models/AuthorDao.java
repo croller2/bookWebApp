@@ -46,48 +46,40 @@ public class AuthorDao implements IAuthorDao {
         }
     }
 
-    @Override
     public final String getDriverClass() {
         return driverClass;
     }
 
-    @Override
     public final void setDriverClass(String driverClass) {
         if(driverClass != null){
             this.driverClass = driverClass;
         }
     }
 
-    @Override
     public final String getUrl() {
         return url;
     }
 
-    @Override
     public final void setUrl(String url) {
         if(url != null || url != ""){
             this.url = url;
         }
     }
 
-    @Override
     public final String getUsername() {
         return username;
     }
 
-    @Override
     public final void setUsername(String username) {
         if(!username.equals("") || username != null){
             this.username = username;
         }
     }
 
-    @Override
     public String getPassword() {
         return password;
     }
 
-    @Override
     public final void setPassword(String password) {
         if(password != null || !password.equals("")){
             this.password = password;            

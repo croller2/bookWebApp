@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
+import javax.sql.DataSource;
 
 /**
  *
@@ -87,6 +88,11 @@ public class MySqlDbAccessor implements DbAccessor {
         
         Class.forName(this.driverClass);
         conn = DriverManager.getConnection(this.url, this.userName, this.password);
+    }
+    
+    @Override
+    public final void openConnection(DataSource ds) throws SQLException {
+        conn = ds.getConnection();
     }
     
     @Override

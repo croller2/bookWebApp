@@ -8,6 +8,7 @@ package edu.wctc.car.models;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import javax.sql.DataSource;
 
 /**
  *
@@ -25,6 +26,7 @@ public interface DbAccessor {
 
     // Consider creating a custom exception
     void openConnection(String driverClass, String Url, String userName, String password) throws ClassNotFoundException, SQLException;
+    void openConnection(DataSource ds) throws SQLException;
     
     int updateRecord(String tableName, List<String> columnNames, List colValues,
             String whereField, Object whereValue)throws SQLException;
