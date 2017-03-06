@@ -20,11 +20,9 @@ $( document ).ready(function() {
   });
   $('#addAuthorForm:input').change(function(){
     if ($('#authorName').val().length > 0){
-        console.log('author submit disabled');
         $('#addAuthorSubmit').prop("disabled",false);
     }else{
         $('#addAuthorSubmit').prop("disabled",true);
-        console.log('author submit disabled');
     }       
   });
 });

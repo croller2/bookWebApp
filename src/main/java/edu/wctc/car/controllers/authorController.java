@@ -6,11 +6,9 @@
 package edu.wctc.car.controllers;
 
 import edu.wctc.car.models.Author;
-import edu.wctc.car.models.AuthorDao;
 import edu.wctc.car.models.AuthorService;
 import edu.wctc.car.models.DbAccessor;
 import edu.wctc.car.models.IAuthorDao;
-import edu.wctc.car.models.MySqlDbAccessor;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.sql.SQLException;
@@ -18,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.servlet.RequestDispatcher;
@@ -59,20 +59,13 @@ public class authorController extends HttpServlet {
     private String jndiName;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, Exception {
         response.setContentType("text/html;charset=UTF-8");
         String operation = request.getParameter("op");
         RequestDispatcher view = request.getRequestDispatcher(PAGE_NOT_FOUND);
 
-        AuthorService as = new AuthorService(
-                new AuthorDao(
-                        new MySqlDbAccessor(),
-                        "com.mysql.jdbc.Driver",
-                        "jdbc:mysql://localhost:3306/book",
-                        "root",
-                        "08rollec!")
-        );
         try {
+            AuthorService as = injectDependenciesAndGetAuthorService();
             if (operation == null) {
                 List<Author> listOfAuthors = refreshAuthorList(as);
                 request.setAttribute("authorList", listOfAuthors);
@@ -82,13 +75,45 @@ public class authorController extends HttpServlet {
                 view = request.getRequestDispatcher(ADD_AUTH_PAGE);
 
             } else if (operation.equalsIgnoreCase("updateAuthor")) {
-
-                //Figure out how to ascertain what authorId's were checked here. 
-                String authorId = request.getQueryString();
+                int authorId = Integer.parseInt(request.getParameter("authorId"));
+                String authorName = request.getParameter("authorName");
+                String date = request.getParameter("dateAdded");
+                 request.setAttribute("authorId", authorId);
+                 request.setAttribute("authorName" , authorName);
+                 request.setAttribute("dateAdded", date);
                 System.out.println(authorId);
                 view = request.getRequestDispatcher(UPDATE_AUTHOR_PAGE);
 
-            } else if (operation.equalsIgnoreCase("addToList")) {
+            }else if (operation.equalsIgnoreCase("deleteAuthor")) {
+
+                try{
+                    int authorId = Integer.parseInt(request.getParameter("authorId"));
+                    as.removeAuthor("author", "author_Id", authorId);  
+                    List<Author> listOfAuthors = refreshAuthorList(as);
+                    request.setAttribute("authorList", listOfAuthors);
+                    view = request.getRequestDispatcher(AUTH_LIST_PAGE);
+
+                }catch(Exception ex){
+                    request.setAttribute("errorMessage", ex.getMessage());
+                    view = request.getRequestDispatcher(PAGE_NOT_FOUND);
+                }                
+            }else if(operation.equalsIgnoreCase("update")){
+                try{
+                    int authorId = Integer.parseInt(request.getParameter("authorId"));
+                    String authorName = request.getParameter("authorName");
+                    List<String> columnNames = new ArrayList<>(Arrays.asList("author_name"));
+                    List<Object> colValues = new ArrayList<>(Arrays.asList(authorName));
+                    as.updateAuthor("author", columnNames, colValues, "author_id", authorId);
+                    List<Author> listOfAuthors = refreshAuthorList(as);
+                    request.setAttribute("authorList", listOfAuthors);
+                    view = request.getRequestDispatcher(AUTH_LIST_PAGE);
+
+                }catch(Exception ex){
+                    request.setAttribute("errorMessage", ex.getMessage());
+                    view = request.getRequestDispatcher(PAGE_NOT_FOUND);
+                }
+            }
+            else if (operation.equalsIgnoreCase("addToList")) {
                 String authorName = request.getParameter("authorName");
                 Date addedDate = new Date();
                 as.addAuthor(
@@ -153,8 +178,9 @@ public class authorController extends HttpServlet {
              objects based on the servlet init params
              */
             Context ctx = new InitialContext();
-            Context envCtx = (Context) ctx.lookup("java:comp/env");
-            DataSource ds = (DataSource) envCtx.lookup(jndiName);
+            DataSource ds = (DataSource) ctx.lookup(jndiName);
+//            Context envCtx = (Context) ctx.lookup("java:comp/env");
+//            DataSource ds = (DataSource) envCtx.lookup(jndiName);
             constructor = daoClass.getConstructor(new Class[]{
                 DataSource.class, DbAccessor.class
             });
@@ -181,7 +207,11 @@ public class authorController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(authorController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -195,7 +225,11 @@ public class authorController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(authorController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

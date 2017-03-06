@@ -8,6 +8,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Uhoh...this isn't right</title>
     </head>
@@ -15,10 +16,14 @@
         <div class="row">
             <div class="container">
                 <div class="col-xs-6 col-xs-offset-3">
-                    <h1>${errorMessage}</h1>
+                    <h1>Uh oh you hit an error...</h1>
+                    <h1>Here's the message that got served up:</h1>
+                    <div class='row'>
+                                          <h1>${errorMessage}</h1>  
+                    </div>
+
                 </div>
             </div>
         </div>
-        <h1>Hello World!</h1>
     </body>
 </html>
