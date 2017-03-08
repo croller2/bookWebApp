@@ -10,10 +10,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/main.css" rel="stylesheet">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <script src="js/main.js"></script>
+        <jsp:include page="stylesheetBundle.jsp"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Author List</title>
     </head>
@@ -45,7 +42,7 @@
                                     <input id="authorId" name="authorId" value="${authorList.authorId}" type="hidden">
                                     <input id="authorName" name="authorName" value="${authorList.authorName}" type="hidden">
                                     <input id="dateAdded" name="dateAdded" value="${authorList.dateAdded}" type="hidden">
-                                    <button class="btn btn-default" type="submit">Edit/Update</button></form>
+                                    <button class="btn btn-primary" type="submit">Edit/Update</button></form>
                                 </td>                                
                                 <td>${authorList.authorId}</td>
                                 <td>${authorList.authorName}</td>
@@ -53,7 +50,7 @@
                                 <td style="text-align: center">
                                     <form method="POST" action="authorController?op=deleteAuthor&authorId=${authorList.authorId}">
                                     <input id="${authorList.authorId}" name="${authorList.authorId}" value="${authorList.authorId}" type="hidden">
-                                    <button class="btn btn-default" type="submit">Delete</button></form>
+                                    <button class="btn btn-danger" type="submit">Delete</button></form>
                                 </td>
                                 </tr>
                             </c:forEach>
