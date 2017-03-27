@@ -10,5 +10,6 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>        
         <script src="js/bootstrap.js" type="text/javascript"></script>
         <script src="js/main.js"></script>
-        <link rel="icon" type="image/png" href="http://example.com/myicon.png">
+        <link href="css/main.css" rel="stylesheet" type="text/css"/>
+        <link rel="icon" href="images/favicon-book.ico">
 

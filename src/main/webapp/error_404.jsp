@@ -19,7 +19,7 @@
                     <h1>Uh oh you hit an error...</h1>
                     <h1>Here's the message that got served up:</h1>
                     <div class='row'>
-                                          <h1>${errorMessage}</h1>  
+                        <h1>${errorMessage}</h1>  
                     </div>
 
                 </div>
