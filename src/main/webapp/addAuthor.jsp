@@ -17,9 +17,9 @@
         
         <div class="container-fluid">
             <div class="row">
-                <div class="col-xs-6 col-xs-offset-3">
+                <div class="col-xs-6 col-xs-offset-3 wrapper">
                     <h2>Add an Author:</h2>
-                    <form id="addAuthorForm" name="addAuthorForm" method="POST" action="authorController?op=addToList">
+                    <form id="addAuthorForm" name="addAuthorForm" method="POST" action="authorController?op=addtolist">
                         <div class="form-group">
                           <label for="authorName">Author Name: </label>
                           <input type="text" required class="form-control" id="authorName" name="authorName" aria-describedby="authorName" placeholder="Mark Twain">

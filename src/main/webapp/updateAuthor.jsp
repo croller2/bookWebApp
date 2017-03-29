@@ -16,7 +16,7 @@
         
         <div class="container-fluid">
             <div class="row">
-                <div class="col-xs-3 col-xs-offset-5">
+                <div class="col-xs-3 col-xs-offset-5 wrapper">
                     <h2>Update Authors</h2>
                     <form id="upDateAuthorForm" name="upDateAuthorForm" method="POST" action="authorController?op=update&authorId=${authorId}">
                         <div class="form-group">

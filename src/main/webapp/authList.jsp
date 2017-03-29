@@ -19,7 +19,7 @@
 
         <div class="container">
             <div class="row">                
-                <div class="col-xs-6 col-xs-offset-3">
+                <div class="col-xs-6 col-xs-offset-3 wrapper">
                         <table class="table table-bordered">
                             <th>Update</th>
                             <th>Author ID</th>

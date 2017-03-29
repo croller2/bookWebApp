@@ -7,11 +7,48 @@ and open the template in the editor.
     Created on : Feb 22, 2017, 11:48:30 AM
     Author     : chris
 */
-
+.wrapper{
+    margin-top: 75px;
+    background-color: white;
+    opacity: .9;
+    padding: 10px;
+    border-radius: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
 th{
-    text-align: center
+    text-align: center;
+    background-color: white;
 }
 
 td{
     text-align: center
+}
+
+td button{
+    margin-top: 25%;
+}
+.user{
+    padding:15px;
+}
+.navbar{
+    background-color: #004d99;
+    color: white;  
+}
+.navbar a{
+    color: white;
+}
+
+.navbar a:hover{
+    background-color: #80bfff;
+    color: black;
+
+}
+body{
+
+    height: 100vh;
+
+}
+.title{
+    text-align: center;
 }
