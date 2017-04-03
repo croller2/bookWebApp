@@ -8,7 +8,7 @@ and open the template in the editor.
     Author     : chris
 */
 .wrapper{
-    margin-top: 75px;
+    margin-top: 100px;
     background-color: white;
     opacity: .9;
     padding: 10px;
@@ -22,11 +22,12 @@ th{
 }
 
 td{
-    text-align: center
+    text-align: center;
+    vertical-align: middle;     
 }
 
 td button{
-    margin-top: 25%;
+    vertical-align: middle;
 }
 .user{
     padding:15px;

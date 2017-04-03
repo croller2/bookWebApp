@@ -19,42 +19,33 @@
 
         <div class="container">
             <div class="row">                
-                <div class="col-xs-6 col-xs-offset-3 wrapper">
-                        <table class="table table-bordered">
-                            <th>Update</th>
-                            <th>Author ID</th>
-                            <th>Author Name</th>
-                            <th>Date Added</th>
-                            <th>Delete</th>
-
-                            <c:forEach var="authorList" items="${authorList}" varStatus="rowCount">
-                                <tr>
-                                <c:choose>
-                                    <c:when test="${rowCount.count % 2 != 0}">
-                                        <tr style="background-color: white">     
-                                    </c:when>
-                                    <c:otherwise>
-                                        <tr style="background-color: lightgrey">     
-                                    </c:otherwise>
-                                </c:choose>
+                <div class="col-xs-8 col-xs-offset-2 wrapper">
+                    <table class="table table-bordered table-striped">
+                        <th>Update</th>
+                        <th>Author ID</th>
+                        <th>Author Name</th>
+                        <th>Date Added</th>
+                        <th>Delete</th>
+                        <c:forEach var="authorList" items="${authorList}" varStatus="rowCount">
+                            <tr>
                                 <td style="text-align: center">
                                     <form method="POST" action="authorController?op=updateAuthor&authorId=${authorList.authorId}">
-                                    <input id="authorId" name="authorId" value="${authorList.authorId}" type="hidden">
-                                    <input id="authorName" name="authorName" value="${authorList.authorName}" type="hidden">
-                                    <input id="dateAdded" name="dateAdded" value="${authorList.dateAdded}" type="hidden">
-                                    <button class="btn btn-primary" type="submit">Edit/Update</button></form>
+                                        <input id="authorId" name="authorId" value="${authorList.authorId}" type="hidden">
+                                        <input id="authorName" name="authorName" value="${authorList.authorName}" type="hidden">
+                                        <input id="dateAdded" name="dateAdded" value="${authorList.dateAdded}" type="hidden">
+                                        <button class="btn btn-primary" type="submit">Edit/Update</button></form>
                                 </td>                                
                                 <td>${authorList.authorId}</td>
                                 <td>${authorList.authorName}</td>
                                 <td>${authorList.dateAdded}</td>
                                 <td style="text-align: center">
                                     <form method="POST" action="authorController?op=deleteAuthor&authorId=${authorList.authorId}">
-                                    <input id="${authorList.authorId}" name="${authorList.authorId}" value="${authorList.authorId}" type="hidden">
-                                    <button class="btn btn-danger" type="submit">Delete</button></form>
+                                        <input id="${authorList.authorId}" name="${authorList.authorId}" value="${authorList.authorId}" type="hidden">
+                                        <button class="btn btn-danger" type="submit">Delete</button></form>
                                 </td>
-                                </tr>
-                            </c:forEach>
-                        </table>                              
+                            </tr>
+                        </c:forEach>
+                    </table>                              
                 </div>
             </div>  
         </div>
@@ -66,7 +57,7 @@
                     </form>
                 </div>
             </div>            
-            
+
         </div>
 
 

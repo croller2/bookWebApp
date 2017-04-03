@@ -5,6 +5,7 @@
  */
 package edu.wctc.car.models;
 
+import java.util.Date;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,5 +28,13 @@ public class BookFacade extends AbstractFacade<Book> {
     public BookFacade() {
         super(Book.class);
     }
-    
+
+    public void addNewBook(String bookName, String ISBN, Author author) {
+        Book b = new Book();
+        b.setTitle(bookName);
+        b.setIsbn(ISBN);
+        b.setAuthor(author);
+        this.create(b);
+    }
+
 }

@@ -44,7 +44,7 @@ public class Book implements Serializable {
     private String isbn;
     @JoinColumn(name = "author_id", referencedColumnName = "author_id")
     @ManyToOne
-    private Author authorEntity;
+    private Author author;
 
     public Book() {
     }
@@ -77,14 +77,21 @@ public class Book implements Serializable {
         this.isbn = isbn;
     }
 
-    public Author getAuthorId() {
-        return authorEntity;
+    public Author getAuthor() {
+        return author;
     }
 
-    public void setAuthorId(Author authorId) {
-        this.authorEntity = authorId;
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 
+    public String getAuthorName(){
+        return author.getAuthorName();
+    }
+    
+    public void setAuthorName(String authorName){
+        this.author.setAuthorName(authorName);
+    }
     @Override
     public int hashCode() {
         int hash = 0;
@@ -99,10 +106,7 @@ public class Book implements Serializable {
             return false;
         }
         Book other = (Book) object;
-        if ((this.bookId == null && other.bookId != null) || (this.bookId != null && !this.bookId.equals(other.bookId))) {
-            return false;
-        }
-        return true;
+        return !((this.bookId == null && other.bookId != null) || (this.bookId != null && !this.bookId.equals(other.bookId)));
     }
 
     @Override

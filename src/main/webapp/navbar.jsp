@@ -21,6 +21,8 @@
                   <li class="active"><a href="index.jsp"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
                   <li><a href="authorController"><i class="fa fa-user" aria-hidden="true"></i> Author List</a></li>
                   <li><a href="authorController?op=addAuthor"><i class="fa fa-user-plus" aria-hidden="true"></i> Add Author</a></li>
+                  <li><a href="BookController"><i class="fa fa-book" aria-hidden="true"></i> Book List</a></li>
+                   <li><a href="BookController?op=addBook"><i class="fa fa-plus" aria-hidden="true"></i> Add Book</a></li>
                 </ul>
             </div>    
                 
