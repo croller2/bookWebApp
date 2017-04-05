@@ -44,7 +44,7 @@ public class Book implements Serializable {
     private String isbn;
     @JoinColumn(name = "author_id", referencedColumnName = "author_id")
     @ManyToOne
-    private Author author;
+    private Author authorEntity;
 
     public Book() {
     }
@@ -78,19 +78,19 @@ public class Book implements Serializable {
     }
 
     public Author getAuthor() {
-        return author;
+        return authorEntity;
     }
 
     public void setAuthor(Author author) {
-        this.author = author;
+        this.authorEntity = author;
     }
 
     public String getAuthorName(){
-        return author.getAuthorName();
+        return authorEntity.getAuthorName();
     }
     
     public void setAuthorName(String authorName){
-        this.author.setAuthorName(authorName);
+        this.authorEntity.setAuthorName(authorName);
     }
     @Override
     public int hashCode() {

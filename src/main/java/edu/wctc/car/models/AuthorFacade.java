@@ -50,4 +50,15 @@ public class AuthorFacade extends AbstractFacade<Author> {
         this.edit(a);
     }
     
+    public Author findAuthorByName(String name){
+        try{
+            String jpql = "Select a From Author a Where a.authorName = :authorName";
+            Query query = this.getEntityManager().createQuery(jpql);
+            query.setParameter("authorName", name);
+            return (Author) query.getSingleResult();
+        }catch(Exception ex){
+            return null;
+        }
+    }
+    
 }

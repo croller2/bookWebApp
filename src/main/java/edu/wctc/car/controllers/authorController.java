@@ -82,7 +82,6 @@ public class authorController extends HttpServlet {
                 try{
                     String authorId = request.getParameter("authorId");
                     as.deleteByID(authorId);
-                    as.deleteByID(authorId);
                     List<Author> listOfAuthors = refreshAuthorList(as);
                     request.setAttribute("authorList", listOfAuthors);
                     view = request.getRequestDispatcher(AUTH_LIST_PAGE);

@@ -1,9 +1,12 @@
 package edu.wctc.car.controllers;
 
+import edu.wctc.car.models.Author;
+import edu.wctc.car.models.AuthorFacade;
 import edu.wctc.car.models.Book;
 import edu.wctc.car.models.BookFacade;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -31,6 +34,8 @@ public class BookController extends HttpServlet {
      */
     @EJB
     private BookFacade bs;
+    @EJB
+    private AuthorFacade as;
     private String BOOK_LIST_PAGE = "/bookList.jsp";
     private String ADD_BOOK_PAGE = "/addBook.jsp";
     private String UPDATE_BOOK_PAGE = "/updateBook.jsp";
@@ -48,10 +53,40 @@ public class BookController extends HttpServlet {
                 List<Book> listOfBooks = refreshBookList(bs);
                 request.setAttribute("bookList", listOfBooks);
                 view = request.getRequestDispatcher(BOOK_LIST_PAGE);
-
+            } else if (operation.equalsIgnoreCase("addBook")) {
+                view = request.getRequestDispatcher(ADD_BOOK_PAGE);
+            } else if (operation.equalsIgnoreCase("addtolist")) {
+                try {
+                    String authorName = request.getParameter("bookAuthor");
+                    Author author = as.findAuthorByName(authorName);
+                    if (author == null) {
+                        author.setAuthorName(authorName);
+                        author.setDateAdded(new Date());
+                    }
+                    String ISBN = request.getParameter("bookISBN");
+                    String bookName = request.getParameter("bookName");
+                    bs.addNewBook(bookName, ISBN, author);
+                    List<Book> listOfBooks = refreshBookList(bs);
+                    request.setAttribute("bookList", listOfBooks);
+                    view = request.getRequestDispatcher(BOOK_LIST_PAGE);
+                } catch (Exception e) {
+                    request.setAttribute("errorMessage", e.getMessage());
+                    view = request.getRequestDispatcher(PAGE_NOT_FOUND);
+                }
+            } else if (operation.equalsIgnoreCase("deleteBook")) {
+                try{
+                    String bookId = request.getParameter("bookId");
+                    bs.deleteByID(bookId);
+                    List<Book> listOfBooks = refreshBookList(bs);
+                    request.setAttribute("bookList", listOfBooks);
+                    view = request.getRequestDispatcher(BOOK_LIST_PAGE);
+                }catch(Exception ex){
+                    request.setAttribute("errorMessage", ex.getMessage());
+                    view = request.getRequestDispatcher(PAGE_NOT_FOUND);
+                }    
             }
             view.forward(request, response);
-        } catch (Exception e) {
+        }catch (Exception e) {
             request.setAttribute("errorMessage", e.getMessage());
             view = request.getRequestDispatcher(PAGE_NOT_FOUND);
             view.forward(request, response);
