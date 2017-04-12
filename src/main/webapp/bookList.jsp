@@ -21,24 +21,24 @@
         <div class="container">
             <div class="row">                
                 <div class="col-xs-8 col-xs-offset-2 wrapper">
-                        <table class="table table-bordered table-striped">
-                            <th>Update</th>
-                            <th>Book ID</th>
-                            <th>Book Name</th>
-                            <th>ISBN</th>
-                            <th>Author</th>
-                            <th>Delete</th>
+                    <table class="table table-bordered table-striped">
+                        <th>Update</th>
+                        <th>Book ID</th>
+                        <th>Book Name</th>
+                        <th>ISBN</th>
+                        <th>Author</th>
+                        <th>Delete</th>
 
-                            <c:forEach var="bookList" items="${bookList}" varStatus="rowCount">
-                                <tr>
+                        <c:forEach var="bookList" items="${bookList}" varStatus="rowCount">
+                            <tr>
 
                                 <td style="text-align: center">
                                     <form method="POST" action="BookController?op=updateBook&bookID=${bookList.bookId}">
-                                    <input id="bookId" name="bookId" value="${bookList.bookId}" type="hidden">
-                                    <input id="bookTitle" name="bookTitle" value="${bookList.title}" type="hidden">
-                                    <input id="ISBN" name="ISBN" value="${bookList.isbn}" type="hidden">
-                                    <input id="authorId" name="authorId" value="${bookList.author.authorId}" type="hidden">
-                                    <button class="btn btn-primary" type="submit">Edit/Update</button></form>
+                                        <input id="bookId" name="bookId" value="${bookList.bookId}" type="hidden">
+                                        <input id="bookTitle" name="bookTitle" value="${bookList.title}" type="hidden">
+                                        <input id="ISBN" name="ISBN" value="${bookList.isbn}" type="hidden">
+                                        <input id="authorId" name="authorId" value="${bookList.author.authorId}" type="hidden">
+                                        <button class="btn btn-primary" type="submit">Edit/Update</button></form>
                                 </td>                                
                                 <td>${bookList.bookId}</td>
                                 <td>${bookList.title}</td>
@@ -46,12 +46,12 @@
                                 <td>${bookList.author.authorName}</td>
                                 <td style="text-align: center">
                                     <form method="POST" action="BookController?op=deleteBook">
-                                    <input id="bookId" name="bookId" value="${bookList.bookId}" type="hidden">
-                                    <button class="btn btn-danger" type="submit">Delete</button></form>
+                                        <input name="bookId" value="${bookList.bookId}" type="hidden">
+                                        <button class="btn btn-danger" type="submit">Delete</button></form>
                                 </td>
-                                </tr>
-                            </c:forEach>
-                        </table>                              
+                            </tr>
+                        </c:forEach>
+                    </table>                              
                 </div>
             </div>  
         </div>
@@ -59,11 +59,11 @@
             <div class="row">
                 <div class="col-xs-6 col-xs-offset-3">
                     <form id="addBookForm" name="addBookForm" method="POST" action="BookController?op=addBook">
-                        <button id="addAuthor" name="addAuthor" class="btn btn-default" type="submit">Add Book</button>
+                        <button id="addBook" name="addBook" class="btn btn-default" type="submit">Add Book</button>
                     </form>
                 </div>
             </div>            
-            
+
         </div>
 
 

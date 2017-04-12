@@ -32,7 +32,7 @@ public class BookFacade extends AbstractFacade<Book> {
 
     public int deleteByID(String id) {
         try {
-            String jpql = "DELETE b FROM book b WHERE b.bookId = :id";
+            String jpql = "DELETE FROM book b WHERE b.bookId = :id";
             Query query = this.getEntityManager().createQuery(jpql);
             query.setParameter("id", Integer.parseInt(id));
             return query.executeUpdate();

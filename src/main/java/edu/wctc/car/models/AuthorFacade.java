@@ -28,7 +28,7 @@ public class AuthorFacade extends AbstractFacade<Author> {
     
     public int deleteByID(String id){
         try{  
-            String jpql = "DELETE a FROM Author a WHERE a.authorId = :id";
+            String jpql = "DELETE FROM Author a WHERE a.authorId = :id";
             Query query = this.getEntityManager().createQuery(jpql);
             query.setParameter("id", Integer.parseInt(id));
             return query.executeUpdate();    

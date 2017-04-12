@@ -39,8 +39,8 @@
                                 <td>${authorList.authorName}</td>
                                 <td>${authorList.dateAdded}</td>
                                 <td style="text-align: center">
-                                    <form method="POST" action="authorController?op=deleteAuthor&authorId=${authorList.authorId}">
-                                        <input id="${authorList.authorId}" name="${authorList.authorId}" value="${authorList.authorId}" type="hidden">
+                                    <form method="POST" action="authorController?op=deleteAuthor">
+                                        <input name="authorId" value="${authorList.authorId}" type="hidden">
                                         <button class="btn btn-danger" type="submit">Delete</button></form>
                                 </td>
                             </tr>
