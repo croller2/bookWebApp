@@ -1,4 +1,4 @@
-package edu.wctc.car.models;
+package edu.wctc.car.entity;
 
 import java.io.Serializable;
 import java.util.Date;

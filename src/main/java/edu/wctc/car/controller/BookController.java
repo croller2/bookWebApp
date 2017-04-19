@@ -1,9 +1,8 @@
-package edu.wctc.car.controllers;
+package edu.wctc.car.controller;
 
-import edu.wctc.car.models.Author;
-import edu.wctc.car.models.AuthorFacade;
-import edu.wctc.car.models.Book;
-import edu.wctc.car.models.BookFacade;
+import edu.wctc.car.entity.Author;
+import edu.wctc.car.entity.Book;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
@@ -36,6 +35,7 @@ public class BookController extends HttpServlet {
     private BookFacade bs;
     @EJB
     private AuthorFacade as;
+    
     private String BOOK_LIST_PAGE = "/bookList.jsp";
     private String ADD_BOOK_PAGE = "/addBook.jsp";
     private String UPDATE_BOOK_PAGE = "/updateBook.jsp";
